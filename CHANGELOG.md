@@ -9,4 +9,4 @@ and this project mostly adheres to [Semantic Versioning](https://semver.org/spec
 
 Initial release
 
-[Unreleased]: https://github.com/benface/tailwindcss-layout/compare/v1.0.0...HEAD
+[Unreleased]: https://github.com/benface/tailwindcss-interaction-variants/compare/v1.0.0...HEAD
