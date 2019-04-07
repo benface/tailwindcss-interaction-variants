@@ -1,6 +1,6 @@
 {
   "name": "tailwindcss-interaction-variants",
-  "version": "1.0.0",
+  "version": "2.0.0-beta.1",
   "description": "Tailwind CSS plugin to add some missing interaction state variants",
   "author": "Benoît Rouleau <benoit.rouleau@icloud.com>",
   "license": "ISC",
