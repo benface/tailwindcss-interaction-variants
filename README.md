@@ -9,22 +9,16 @@ npm install tailwindcss-interaction-variants
 ## Usage
 
 ```js
-// In your Tailwind CSS config
+// tailwind.config.js
 {
   backgroundColors: {
     'black': 'black',
   },
-  
-  // ...
-
   modules: {
     backgroundColors: ['hocus', 'group-hocus', 'group-focus', 'group-active', 'visited'],
   },
-
-  // ...
-
   plugins: [
-    require('tailwindcss-interaction-variants')(), // nothing to configure!
+    require('tailwindcss-interaction-variants')(),
   ],
 }
 ```

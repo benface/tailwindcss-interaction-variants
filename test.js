@@ -2,30 +2,40 @@ const _ = require('lodash');
 const cssMatcher = require('jest-matcher-css');
 const postcss = require('postcss');
 const tailwindcss = require('tailwindcss');
-const defaultConfig = require('tailwindcss/defaultConfig')();
+const defaultConfig = require('tailwindcss/defaultConfig');
 const interactionVariantsPlugin = require('./index.js');
 
-const disabledModules = {};
-Object.keys(defaultConfig.modules).forEach(module => {
-  disabledModules[module] = false;
-});
-
 const generatePluginCss = (variants = []) => {
-  return postcss(tailwindcss({
-    modules: disabledModules,
-    plugins: [
-      interactionVariantsPlugin(),
-      ({ e, addUtilities }) => {
-        addUtilities({
-          '.test': {
-            'display': 'none',
-          },
-        }, variants);
+  return postcss(
+    tailwindcss({
+      theme: {
+        screens: {
+          'sm': '640px',
+        },
       },
-    ],
-  })).process('@tailwind utilities;', {
+      corePlugins: (function() {
+        let disabledCorePlugins = {};
+        Object.keys(defaultConfig.variants).forEach(corePlugin => {
+          disabledCorePlugins[corePlugin] = false;
+        });
+        return disabledCorePlugins;
+      })(),
+      plugins: [
+        interactionVariantsPlugin(),
+        ({ e, addUtilities }) => {
+          addUtilities({
+            '.test': {
+              'display': 'none',
+            },
+          }, variants);
+        },
+      ],
+    })
+  )
+  .process('@tailwind utilities;', {
     from: undefined,
-  }).then(result => {
+  })
+  .then(result => {
     return result.css;
   });
 };
@@ -35,7 +45,7 @@ expect.extend({
 });
 
 test('the plugin doesn’t do anything if the variants aren’t used', () => {
-  return generatePluginCss([]).then(css => {
+  return generatePluginCss().then(css => {
     expect(css).toMatchCss(`
       .test {
         display: none;
@@ -110,20 +120,34 @@ test('the visited variant is working', () => {
 });
 
 test('multiple variants can be used together', () => {
-  return generatePluginCss(['hocus', 'group-active', 'group-focus']).then(css => {
+  return generatePluginCss(['responsive', 'hocus', 'group-active', 'group-focus']).then(css => {
     expect(css).toMatchCss(`
-    .test {
-      display: none;
-    }
-    .hocus\\:test:hover, .hocus\\:test:focus {
-      display: none;
-    }
-    .group:active .group-active\\:test {
-      display: none;
-    }
-    .group:focus .group-focus\\:test {
-      display: none;
-    }
+      .test {
+        display: none;
+      }
+      .hocus\\:test:hover, .hocus\\:test:focus {
+        display: none;
+      }
+      .group:active .group-active\\:test {
+        display: none;
+      }
+      .group:focus .group-focus\\:test {
+        display: none;
+      }
+      @media (min-width: 640px) {
+        .sm\\:test {
+          display: none;
+        }
+        .sm\\:hocus\\:test:hover, .sm\\:hocus\\:test:focus {
+          display: none;
+        }
+        .group:active .sm\\:group-active\\:test {
+          display: none;
+        }
+        .group:focus .sm\\:group-focus\\:test {
+          display: none;
+        }
+      }
     `);
   });
 });
