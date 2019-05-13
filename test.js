@@ -13,13 +13,7 @@ const generatePluginCss = (variants = []) => {
           'sm': '640px',
         },
       },
-      corePlugins: (function() {
-        let disabledCorePlugins = {};
-        Object.keys(defaultConfig.variants).forEach(corePlugin => {
-          disabledCorePlugins[corePlugin] = false;
-        });
-        return disabledCorePlugins;
-      })(),
+      corePlugins: false,
       plugins: [
         interactionVariantsPlugin(),
         ({ e, addUtilities }) => {
@@ -32,7 +26,7 @@ const generatePluginCss = (variants = []) => {
       ],
     })
   )
-  .process('@tailwind utilities;', {
+  .process('@tailwind utilities', {
     from: undefined,
   })
   .then(result => {
@@ -48,7 +42,7 @@ test('the plugin doesn’t do anything if the variants aren’t used', () => {
   return generatePluginCss().then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: none
       }
     `);
   });
@@ -58,10 +52,10 @@ test('the hocus variant is working', () => {
   return generatePluginCss(['hocus']).then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: none
       }
       .hocus\\:test:hover, .hocus\\:test:focus {
-        display: none;
+        display: none
       }
     `);
   });
@@ -71,10 +65,10 @@ test('the group-hocus variant is working', () => {
   return generatePluginCss(['group-hocus']).then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: none
       }
       .group:hover .group-hocus\\:test, .group:focus .group-hocus\\:test {
-        display: none;
+        display: none
       }
     `);
   });
@@ -84,10 +78,10 @@ test('the group-focus variant is working', () => {
   return generatePluginCss(['group-focus']).then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: none
       }
       .group:focus .group-focus\\:test {
-        display: none;
+        display: none
       }
     `);
   });
@@ -97,10 +91,10 @@ test('the group-active variant is working', () => {
   return generatePluginCss(['group-active']).then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: none
       }
       .group:active .group-active\\:test {
-        display: none;
+        display: none
       }
     `);
   });
@@ -110,10 +104,10 @@ test('the visited variant is working', () => {
   return generatePluginCss(['visited']).then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: none
       }
       .visited\\:test:visited {
-        display: none;
+        display: none
       }
     `);
   });
@@ -123,29 +117,29 @@ test('multiple variants can be used together', () => {
   return generatePluginCss(['responsive', 'hocus', 'group-active', 'group-focus']).then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: none
       }
       .hocus\\:test:hover, .hocus\\:test:focus {
-        display: none;
+        display: none
       }
       .group:active .group-active\\:test {
-        display: none;
+        display: none
       }
       .group:focus .group-focus\\:test {
-        display: none;
+        display: none
       }
       @media (min-width: 640px) {
         .sm\\:test {
-          display: none;
+          display: none
         }
         .sm\\:hocus\\:test:hover, .sm\\:hocus\\:test:focus {
-          display: none;
+          display: none
         }
         .group:active .sm\\:group-active\\:test {
-          display: none;
+          display: none
         }
         .group:focus .sm\\:group-focus\\:test {
-          display: none;
+          display: none
         }
       }
     `);
