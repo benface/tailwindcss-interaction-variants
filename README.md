@@ -25,7 +25,7 @@ npm install tailwindcss-interaction-variants
 }
 ```
 
-The above configuration would generate the following classes:
+The above configuration would generate the following CSS:
 
 ```css
 .bg-black {

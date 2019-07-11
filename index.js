@@ -1,34 +1,65 @@
 const _ = require('lodash');
+const selectorParser = require('postcss-selector-parser');
+
+const pseudoClassVariant = function(pseudoClass) {
+  return ({ modifySelectors, separator }) => {
+    return modifySelectors(({ selector }) => {
+      return selectorParser(selectors => {
+        selectors.walkClasses(classNode => {
+          classNode.value = `${pseudoClass}${separator}${classNode.value}`;
+          classNode.parent.insertAfter(classNode, selectorParser.pseudo({ value: `:${pseudoClass}` }));
+        })
+      }).processSync(selector);
+    });
+  };
+};
+
+const groupPseudoClassVariant = function(pseudoClass) {
+  return ({ modifySelectors, separator }) => {
+    return modifySelectors(({ selector }) => {
+      return selectorParser(selectors => {
+        selectors.walkClasses(classNode => {
+          classNode.value = `group-${pseudoClass}${separator}${classNode.value}`;
+          classNode.parent.insertBefore(classNode, selectorParser().astSync(`.group:${pseudoClass} `));
+        });
+      }).processSync(selector);
+    });
+  };
+};
 
 module.exports = function() {
   return ({ addVariant, e }) => {
+    addVariant('visited', pseudoClassVariant('visited'));
+    addVariant('group-focus', groupPseudoClassVariant('focus'));
+    addVariant('group-active', groupPseudoClassVariant('active'));
+
     addVariant('hocus', ({ modifySelectors, separator }) => {
-      modifySelectors(({ className }) => {
-        return `.${e(`hocus${separator}${className}`)}:hover, .${e(`hocus${separator}${className}`)}:focus`;
+      modifySelectors(({ selector }) => {
+        return selectorParser(selectors => {
+          const clonedSelectors = selectors.clone();
+          [selectors, clonedSelectors].forEach((sel, i) => {
+            sel.walkClasses(classNode => {
+              classNode.value = `hocus${separator}${classNode.value}`;
+              classNode.parent.insertAfter(classNode, selectorParser.pseudo({ value: `:${i === 0 ? 'hover' : 'focus'}` }));
+            });
+          });
+          selectors.append(clonedSelectors);
+        }).processSync(selector);
       });
     });
 
     addVariant('group-hocus', ({ modifySelectors, separator }) => {
-      modifySelectors(({ className }) => {
-        return `.group:hover .${e(`group-hocus${separator}${className}`)}, .group:focus .${e(`group-hocus${separator}${className}`)}`;
-      });
-    });
-
-    addVariant('group-focus', ({ modifySelectors, separator }) => {
-      modifySelectors(({ className }) => {
-        return `.group:focus .${e(`group-focus${separator}${className}`)}`;
-      });
-    });
-
-    addVariant('group-active', ({ modifySelectors, separator }) => {
-      modifySelectors(({ className }) => {
-        return `.group:active .${e(`group-active${separator}${className}`)}`;
-      });
-    });
-    
-    addVariant('visited', ({ modifySelectors, separator }) => {
-      modifySelectors(({ className }) => {
-        return `.${e(`visited${separator}${className}`)}:visited`;
+      modifySelectors(({ selector }) => {
+        return selectorParser(selectors => {
+          const clonedSelectors = selectors.clone();
+          [selectors, clonedSelectors].forEach((sel, i) => {
+            sel.walkClasses(classNode => {
+              classNode.value = `group-hocus${separator}${classNode.value}`;
+              classNode.parent.insertBefore(classNode, selectorParser().astSync(`.group:${i === 0 ? 'hover' : 'focus'} `));
+            });
+          });
+          selectors.append(clonedSelectors);
+        }).processSync(selector)
       });
     });
   };

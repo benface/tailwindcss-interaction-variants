@@ -4,7 +4,7 @@ const postcss = require('postcss');
 const tailwindcss = require('tailwindcss');
 const interactionVariantsPlugin = require('./index.js');
 
-const generatePluginCss = (variants = []) => {
+const generatePluginCss = (variants = [], css = null) => {
   return postcss(
     tailwindcss({
       theme: {
@@ -15,8 +15,8 @@ const generatePluginCss = (variants = []) => {
       corePlugins: false,
       plugins: [
         interactionVariantsPlugin(),
-        ({ e, addUtilities }) => {
-          addUtilities({
+        ({ addUtilities }) => {
+          addUtilities(css ? css : {
             '.test': {
               'display': 'none',
             },
@@ -140,6 +140,35 @@ test('multiple variants can be used together', () => {
         .group:focus .sm\\:group-focus\\:test {
           display: none;
         }
+      }
+    `);
+  });
+});
+
+test('the variants work on utilities that include pseudo-elements', () => {
+  return generatePluginCss(['visited', 'group-focus', 'group-active', 'hocus', 'group-hocus'], {
+    '.placeholder-gray-400::placeholder': {
+      'color': '#cbd5e0',
+    },
+  }).then(css => {
+    expect(css).toMatchCss(`
+      .placeholder-gray-400::placeholder {
+        color: #cbd5e0;
+      }
+      .visited\\:placeholder-gray-400:visited::placeholder {
+        color: #cbd5e0;
+      }
+      .group:focus .group-focus\\:placeholder-gray-400::placeholder {
+        color: #cbd5e0
+      }
+      .group:active .group-active\\:placeholder-gray-400::placeholder {
+        color: #cbd5e0
+      }
+      .hocus\\:placeholder-gray-400:hover::placeholder, .hocus\\:placeholder-gray-400:focus::placeholder {
+        color: #cbd5e0
+      }
+      .group:hover .group-hocus\\:placeholder-gray-400::placeholder, .group:focus .group-hocus\\:placeholder-gray-400::placeholder {
+        color: #cbd5e0
       }
     `);
   });
