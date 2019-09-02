@@ -1,19 +1,6 @@
 const _ = require('lodash');
 const selectorParser = require('postcss-selector-parser');
 
-const pseudoClassVariant = function(pseudoClass) {
-  return ({ modifySelectors, separator }) => {
-    return modifySelectors(({ selector }) => {
-      return selectorParser(selectors => {
-        selectors.walkClasses(classNode => {
-          classNode.value = `${pseudoClass}${separator}${classNode.value}`;
-          classNode.parent.insertAfter(classNode, selectorParser.pseudo({ value: `:${pseudoClass}` }));
-        })
-      }).processSync(selector);
-    });
-  };
-};
-
 const groupPseudoClassVariant = function(pseudoClass) {
   return ({ modifySelectors, separator }) => {
     return modifySelectors(({ selector }) => {
@@ -29,7 +16,6 @@ const groupPseudoClassVariant = function(pseudoClass) {
 
 module.exports = function() {
   return ({ addVariant, e }) => {
-    addVariant('visited', pseudoClassVariant('visited'));
     addVariant('group-focus', groupPseudoClassVariant('focus'));
     addVariant('group-active', groupPseudoClassVariant('active'));
 

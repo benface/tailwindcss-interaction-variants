@@ -99,19 +99,6 @@ test('the group-active variant is working', () => {
   });
 });
 
-test('the visited variant is working', () => {
-  return generatePluginCss(['visited']).then(css => {
-    expect(css).toMatchCss(`
-      .test {
-        display: none;
-      }
-      .visited\\:test:visited {
-        display: none;
-      }
-    `);
-  });
-});
-
 test('multiple variants can be used together', () => {
   return generatePluginCss(['responsive', 'hocus', 'group-active', 'group-focus']).then(css => {
     expect(css).toMatchCss(`
@@ -146,16 +133,13 @@ test('multiple variants can be used together', () => {
 });
 
 test('the variants work on utilities that include pseudo-elements', () => {
-  return generatePluginCss(['visited', 'group-focus', 'group-active', 'hocus', 'group-hocus'], {
+  return generatePluginCss(['group-focus', 'group-active', 'hocus', 'group-hocus'], {
     '.placeholder-gray-400::placeholder': {
       'color': '#cbd5e0',
     },
   }).then(css => {
     expect(css).toMatchCss(`
       .placeholder-gray-400::placeholder {
-        color: #cbd5e0;
-      }
-      .visited\\:placeholder-gray-400:visited::placeholder {
         color: #cbd5e0;
       }
       .group:focus .group-focus\\:placeholder-gray-400::placeholder {

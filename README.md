@@ -17,7 +17,7 @@ npm install tailwindcss-interaction-variants
     },
   },
   variants: {
-    backgroundColor: ['hocus', 'group-hocus', 'group-focus', 'group-active', 'visited'],
+    backgroundColor: ['hocus', 'group-hocus', 'group-focus', 'group-active'],
   },
   plugins: [
     require('tailwindcss-interaction-variants')(),
@@ -45,10 +45,6 @@ The above configuration would generate the following CSS:
 }
 
 .group:active .group-active\:bg-black {
-  background-color: black;
-}
-
-.visited\:bg-black:visited {
   background-color: black;
 }
 ```
