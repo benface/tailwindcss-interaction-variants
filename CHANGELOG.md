@@ -8,7 +8,7 @@ and this project mostly adheres to [Semantic Versioning](https://semver.org/spec
 ## [2.2.0] - 2019-09-02
 
 ### Removed
-- Removed the `visited` variant since it is now built in to Tailwind
+- Removed the `visited` variant since it is now built into Tailwind
 
 ## [2.1.0] - 2019-07-11
 
