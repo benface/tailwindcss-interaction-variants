@@ -15,8 +15,9 @@ const groupPseudoClassVariant = function(pseudoClass) {
 };
 
 module.exports = function() {
-  return ({ addVariant, e }) => {
+  return ({ addVariant }) => {
     addVariant('group-focus', groupPseudoClassVariant('focus'));
+    addVariant('group-focus-within', groupPseudoClassVariant('focus-within'));
     addVariant('group-active', groupPseudoClassVariant('active'));
 
     addVariant('hocus', ({ modifySelectors, separator }) => {

@@ -86,6 +86,19 @@ test('the group-focus variant is working', () => {
   });
 });
 
+test('the group-focus-within variant is working', () => {
+  return generatePluginCss(['group-focus-within']).then(css => {
+    expect(css).toMatchCss(`
+      .test {
+        display: none;
+      }
+      .group:focus-within .group-focus-within\\:test {
+        display: none;
+      }
+    `);
+  });
+});
+
 test('the group-active variant is working', () => {
   return generatePluginCss(['group-active']).then(css => {
     expect(css).toMatchCss(`
@@ -100,7 +113,7 @@ test('the group-active variant is working', () => {
 });
 
 test('multiple variants can be used together', () => {
-  return generatePluginCss(['responsive', 'hocus', 'group-active', 'group-focus']).then(css => {
+  return generatePluginCss(['responsive', 'hocus', 'group-active', 'group-focus', 'group-focus-within']).then(css => {
     expect(css).toMatchCss(`
       .test {
         display: none;
@@ -112,6 +125,9 @@ test('multiple variants can be used together', () => {
         display: none;
       }
       .group:focus .group-focus\\:test {
+        display: none;
+      }
+      .group:focus-within .group-focus-within\\:test {
         display: none;
       }
       @media (min-width: 640px) {
@@ -127,13 +143,16 @@ test('multiple variants can be used together', () => {
         .group:focus .sm\\:group-focus\\:test {
           display: none;
         }
+        .group:focus-within .sm\\:group-focus-within\\:test {
+          display: none;
+        }
       }
     `);
   });
 });
 
 test('the variants work on utilities that include pseudo-elements', () => {
-  return generatePluginCss(['group-focus', 'group-active', 'hocus', 'group-hocus'], {
+  return generatePluginCss(['group-focus', 'group-active', 'group-focus-within', 'hocus', 'group-hocus'], {
     '.placeholder-gray-400::placeholder': {
       'color': '#cbd5e0',
     },
@@ -146,6 +165,9 @@ test('the variants work on utilities that include pseudo-elements', () => {
         color: #cbd5e0
       }
       .group:active .group-active\\:placeholder-gray-400::placeholder {
+        color: #cbd5e0
+      }
+      .group:focus-within .group-focus-within\\:placeholder-gray-400::placeholder {
         color: #cbd5e0
       }
       .hocus\\:placeholder-gray-400:hover::placeholder, .hocus\\:placeholder-gray-400:focus::placeholder {
