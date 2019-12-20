@@ -1,21 +1,27 @@
 const _ = require('lodash');
 const selectorParser = require('postcss-selector-parser');
 
-const groupPseudoClassVariant = function(pseudoClass) {
-  return ({ modifySelectors, separator }) => {
-    return modifySelectors(({ selector }) => {
-      return selectorParser(selectors => {
-        selectors.walkClasses(classNode => {
-          classNode.value = `group-${pseudoClass}${separator}${classNode.value}`;
-          classNode.parent.insertBefore(classNode, selectorParser().astSync(`.group:${pseudoClass} `));
-        });
-      }).processSync(selector);
-    });
-  };
-};
-
 module.exports = function() {
-  return ({ addVariant }) => {
+  return ({ addVariant, config }) => {
+    const prefixClass = function(className) {
+      const prefix = config('prefix');
+      const getPrefix = typeof prefix === 'function' ? prefix : () => prefix;
+      return `${getPrefix(`.${className}`)}${className}`;
+    };
+
+    const groupPseudoClassVariant = function(pseudoClass) {
+      return ({ modifySelectors, separator }) => {
+        return modifySelectors(({ selector }) => {
+          return selectorParser(selectors => {
+            selectors.walkClasses(classNode => {
+              classNode.value = `group-${pseudoClass}${separator}${classNode.value}`;
+              classNode.parent.insertBefore(classNode, selectorParser().astSync(`.${prefixClass('group')}:${pseudoClass} `));
+            });
+          }).processSync(selector);
+        });
+      };
+    };
+
     addVariant('group-focus', groupPseudoClassVariant('focus'));
     addVariant('group-focus-within', groupPseudoClassVariant('focus-within'));
     addVariant('group-active', groupPseudoClassVariant('active'));
@@ -44,7 +50,7 @@ module.exports = function() {
           [selectors, clonedSelectors].forEach((sel, i) => {
             sel.walkClasses(classNode => {
               classNode.value = `group-hocus${separator}${classNode.value}`;
-              classNode.parent.insertBefore(classNode, selectorParser().astSync(`.group:${i === 0 ? 'hover' : 'focus'} `));
+              classNode.parent.insertBefore(classNode, selectorParser().astSync(`.${prefixClass('group')}:${i === 0 ? 'hover' : 'focus'} `));
             });
           });
           selectors.append(clonedSelectors);

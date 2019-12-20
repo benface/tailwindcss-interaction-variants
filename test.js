@@ -4,7 +4,7 @@ const postcss = require('postcss');
 const tailwindcss = require('tailwindcss');
 const interactionVariantsPlugin = require('./index.js');
 
-const generatePluginCss = (variants = [], css = null) => {
+const generatePluginCss = (variants = [], tailwindOptions = {}, css = null) => {
   return postcss(
     tailwindcss({
       theme: {
@@ -17,12 +17,13 @@ const generatePluginCss = (variants = [], css = null) => {
         interactionVariantsPlugin(),
         ({ addUtilities }) => {
           addUtilities(css ? css : {
-            '.test': {
+            '.block': {
               'display': 'block',
             },
           }, variants);
         },
       ],
+      ...tailwindOptions,
     })
   )
   .process('@tailwind utilities', {
@@ -40,7 +41,7 @@ expect.extend({
 test('the plugin doesn’t do anything if the variants aren’t used', () => {
   return generatePluginCss().then(css => {
     expect(css).toMatchCss(`
-      .test {
+      .block {
         display: block;
       }
     `);
@@ -50,10 +51,10 @@ test('the plugin doesn’t do anything if the variants aren’t used', () => {
 test('the group-focus variant is working', () => {
   return generatePluginCss(['group-focus']).then(css => {
     expect(css).toMatchCss(`
-      .test {
+      .block {
         display: block;
       }
-      .group:focus .group-focus\\:test {
+      .group:focus .group-focus\\:block {
         display: block;
       }
     `);
@@ -63,10 +64,10 @@ test('the group-focus variant is working', () => {
 test('the hocus variant is working', () => {
   return generatePluginCss(['hocus']).then(css => {
     expect(css).toMatchCss(`
-      .test {
+      .block {
         display: block;
       }
-      .hocus\\:test:hover, .hocus\\:test:focus {
+      .hocus\\:block:hover, .hocus\\:block:focus {
         display: block;
       }
     `);
@@ -76,10 +77,10 @@ test('the hocus variant is working', () => {
 test('the group-hocus variant is working', () => {
   return generatePluginCss(['group-hocus']).then(css => {
     expect(css).toMatchCss(`
-      .test {
+      .block {
         display: block;
       }
-      .group:hover .group-hocus\\:test, .group:focus .group-hocus\\:test {
+      .group:hover .group-hocus\\:block, .group:focus .group-hocus\\:block {
         display: block;
       }
     `);
@@ -87,55 +88,86 @@ test('the group-hocus variant is working', () => {
 });
 
 test('all the variants are working', () => {
-  return generatePluginCss(['responsive', 'group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus']).then(css => {
+  return generatePluginCss(['group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus']).then(css => {
     expect(css).toMatchCss(`
-      .test {
+      .block {
         display: block;
       }
-      .group:focus .group-focus\\:test {
+      .group:focus .group-focus\\:block {
         display: block;
       }
-      .group:focus-within .group-focus-within\\:test {
+      .group:focus-within .group-focus-within\\:block {
         display: block;
       }
-      .group:active .group-active\\:test {
+      .group:active .group-active\\:block {
         display: block;
       }
-      .group:visited .group-visited\\:test {
+      .group:visited .group-visited\\:block {
         display: block;
       }
-      .group:disabled .group-disabled\\:test {
+      .group:disabled .group-disabled\\:block {
         display: block;
       }
-      .hocus\\:test:hover, .hocus\\:test:focus {
+      .hocus\\:block:hover, .hocus\\:block:focus {
         display: block;
       }
-      .group:hover .group-hocus\\:test, .group:focus .group-hocus\\:test {
+      .group:hover .group-hocus\\:block, .group:focus .group-hocus\\:block {
+        display: block;
+      }
+    `);
+  });
+});
+
+test('all variants can be chained with the responsive variant', () => {
+  return generatePluginCss(['group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'responsive']).then(css => {
+    expect(css).toMatchCss(`
+      .block {
+        display: block;
+      }
+      .group:focus .group-focus\\:block {
+        display: block;
+      }
+      .group:focus-within .group-focus-within\\:block {
+        display: block;
+      }
+      .group:active .group-active\\:block {
+        display: block;
+      }
+      .group:visited .group-visited\\:block {
+        display: block;
+      }
+      .group:disabled .group-disabled\\:block {
+        display: block;
+      }
+      .hocus\\:block:hover, .hocus\\:block:focus {
+        display: block;
+      }
+      .group:hover .group-hocus\\:block, .group:focus .group-hocus\\:block {
         display: block;
       }
       @media (min-width: 640px) {
-        .sm\\:test {
+        .sm\\:block {
           display: block;
         }
-        .group:focus .sm\\:group-focus\\:test {
+        .group:focus .sm\\:group-focus\\:block {
           display: block;
         }
-        .group:focus-within .sm\\:group-focus-within\\:test {
+        .group:focus-within .sm\\:group-focus-within\\:block {
           display: block;
         }
-        .group:active .sm\\:group-active\\:test {
+        .group:active .sm\\:group-active\\:block {
           display: block;
         }
-        .group:visited .sm\\:group-visited\\:test {
+        .group:visited .sm\\:group-visited\\:block {
           display: block;
         }
-        .group:disabled .sm\\:group-disabled\\:test {
+        .group:disabled .sm\\:group-disabled\\:block {
           display: block;
         }
-        .sm\\:hocus\\:test:hover, .sm\\:hocus\\:test:focus {
+        .sm\\:hocus\\:block:hover, .sm\\:hocus\\:block:focus {
           display: block;
         }
-        .group:hover .sm\\:group-hocus\\:test, .group:focus .sm\\:group-hocus\\:test {
+        .group:hover .sm\\:group-hocus\\:block, .group:focus .sm\\:group-hocus\\:block {
           display: block;
         }
       }
@@ -143,8 +175,29 @@ test('all the variants are working', () => {
   });
 });
 
+test('the variants work well with Tailwind’s prefix option', () => {
+  return generatePluginCss(['group-focus', 'hocus', 'group-hocus'], {
+    prefix: 'tw-',
+  }).then(css => {
+    expect(css).toMatchCss(`
+      .tw-block {
+        display: block;
+      }
+      .tw-group:focus .group-focus\\:tw-block {
+        display: block;
+      }
+      .hocus\\:tw-block:hover, .hocus\\:tw-block:focus {
+        display: block;
+      }
+      .tw-group:hover .group-hocus\\:tw-block, .tw-group:focus .group-hocus\\:tw-block {
+        display: block;
+      }
+    `);
+  });
+});
+
 test('the variants work on utilities that include pseudo-elements', () => {
-  return generatePluginCss(['group-focus', 'group-active', 'group-focus-within', 'hocus', 'group-hocus'], {
+  return generatePluginCss(['group-focus', 'hocus', 'group-hocus'], {}, {
     '.placeholder-gray-400::placeholder': {
       'color': '#cbd5e0',
     },
@@ -154,12 +207,6 @@ test('the variants work on utilities that include pseudo-elements', () => {
         color: #cbd5e0;
       }
       .group:focus .group-focus\\:placeholder-gray-400::placeholder {
-        color: #cbd5e0
-      }
-      .group:active .group-active\\:placeholder-gray-400::placeholder {
-        color: #cbd5e0
-      }
-      .group:focus-within .group-focus-within\\:placeholder-gray-400::placeholder {
         color: #cbd5e0
       }
       .hocus\\:placeholder-gray-400:hover::placeholder, .hocus\\:placeholder-gray-400:focus::placeholder {

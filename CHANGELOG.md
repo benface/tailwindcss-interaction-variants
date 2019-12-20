@@ -10,6 +10,9 @@ and this project mostly adheres to [Semantic Versioning](https://semver.org/spec
 ### Added
 - Added `group-visited` and `group-disabled` variants
 
+### Fixed
+- Tailwind’s `prefix` option is now properly applied to the `.group` part of the selector for group variants
+
 ## [2.3.0] - 2019-11-29
 
 ### Added
