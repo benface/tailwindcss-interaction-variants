@@ -19,6 +19,8 @@ module.exports = function() {
     addVariant('group-focus', groupPseudoClassVariant('focus'));
     addVariant('group-focus-within', groupPseudoClassVariant('focus-within'));
     addVariant('group-active', groupPseudoClassVariant('active'));
+    addVariant('group-visited', groupPseudoClassVariant('visited'));
+    addVariant('group-disabled', groupPseudoClassVariant('disabled'));
 
     addVariant('hocus', ({ modifySelectors, separator }) => {
       modifySelectors(({ selector }) => {

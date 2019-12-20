@@ -18,7 +18,7 @@ const generatePluginCss = (variants = [], css = null) => {
         ({ addUtilities }) => {
           addUtilities(css ? css : {
             '.test': {
-              'display': 'none',
+              'display': 'block',
             },
           }, variants);
         },
@@ -41,7 +41,7 @@ test('the plugin doesn’t do anything if the variants aren’t used', () => {
   return generatePluginCss().then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: block;
       }
     `);
   });
@@ -51,36 +51,10 @@ test('the group-focus variant is working', () => {
   return generatePluginCss(['group-focus']).then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: block;
       }
       .group:focus .group-focus\\:test {
-        display: none;
-      }
-    `);
-  });
-});
-
-test('the group-focus-within variant is working', () => {
-  return generatePluginCss(['group-focus-within']).then(css => {
-    expect(css).toMatchCss(`
-      .test {
-        display: none;
-      }
-      .group:focus-within .group-focus-within\\:test {
-        display: none;
-      }
-    `);
-  });
-});
-
-test('the group-active variant is working', () => {
-  return generatePluginCss(['group-active']).then(css => {
-    expect(css).toMatchCss(`
-      .test {
-        display: none;
-      }
-      .group:active .group-active\\:test {
-        display: none;
+        display: block;
       }
     `);
   });
@@ -90,10 +64,10 @@ test('the hocus variant is working', () => {
   return generatePluginCss(['hocus']).then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: block;
       }
       .hocus\\:test:hover, .hocus\\:test:focus {
-        display: none;
+        display: block;
       }
     `);
   });
@@ -103,48 +77,66 @@ test('the group-hocus variant is working', () => {
   return generatePluginCss(['group-hocus']).then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
+        display: block;
       }
       .group:hover .group-hocus\\:test, .group:focus .group-hocus\\:test {
-        display: none;
+        display: block;
       }
     `);
   });
 });
 
-test('multiple variants can be used together', () => {
-  return generatePluginCss(['responsive', 'hocus', 'group-active', 'group-focus', 'group-focus-within']).then(css => {
+test('all the variants are working', () => {
+  return generatePluginCss(['responsive', 'group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus']).then(css => {
     expect(css).toMatchCss(`
       .test {
-        display: none;
-      }
-      .hocus\\:test:hover, .hocus\\:test:focus {
-        display: none;
-      }
-      .group:active .group-active\\:test {
-        display: none;
+        display: block;
       }
       .group:focus .group-focus\\:test {
-        display: none;
+        display: block;
       }
       .group:focus-within .group-focus-within\\:test {
-        display: none;
+        display: block;
+      }
+      .group:active .group-active\\:test {
+        display: block;
+      }
+      .group:visited .group-visited\\:test {
+        display: block;
+      }
+      .group:disabled .group-disabled\\:test {
+        display: block;
+      }
+      .hocus\\:test:hover, .hocus\\:test:focus {
+        display: block;
+      }
+      .group:hover .group-hocus\\:test, .group:focus .group-hocus\\:test {
+        display: block;
       }
       @media (min-width: 640px) {
         .sm\\:test {
-          display: none;
-        }
-        .sm\\:hocus\\:test:hover, .sm\\:hocus\\:test:focus {
-          display: none;
-        }
-        .group:active .sm\\:group-active\\:test {
-          display: none;
+          display: block;
         }
         .group:focus .sm\\:group-focus\\:test {
-          display: none;
+          display: block;
         }
         .group:focus-within .sm\\:group-focus-within\\:test {
-          display: none;
+          display: block;
+        }
+        .group:active .sm\\:group-active\\:test {
+          display: block;
+        }
+        .group:visited .sm\\:group-visited\\:test {
+          display: block;
+        }
+        .group:disabled .sm\\:group-disabled\\:test {
+          display: block;
+        }
+        .sm\\:hocus\\:test:hover, .sm\\:hocus\\:test:focus {
+          display: block;
+        }
+        .group:hover .sm\\:group-hocus\\:test, .group:focus .sm\\:group-hocus\\:test {
+          display: block;
         }
       }
     `);
