@@ -47,32 +47,6 @@ test('the plugin doesn’t do anything if the variants aren’t used', () => {
   });
 });
 
-test('the hocus variant is working', () => {
-  return generatePluginCss(['hocus']).then(css => {
-    expect(css).toMatchCss(`
-      .test {
-        display: none;
-      }
-      .hocus\\:test:hover, .hocus\\:test:focus {
-        display: none;
-      }
-    `);
-  });
-});
-
-test('the group-hocus variant is working', () => {
-  return generatePluginCss(['group-hocus']).then(css => {
-    expect(css).toMatchCss(`
-      .test {
-        display: none;
-      }
-      .group:hover .group-hocus\\:test, .group:focus .group-hocus\\:test {
-        display: none;
-      }
-    `);
-  });
-});
-
 test('the group-focus variant is working', () => {
   return generatePluginCss(['group-focus']).then(css => {
     expect(css).toMatchCss(`
@@ -106,6 +80,32 @@ test('the group-active variant is working', () => {
         display: none;
       }
       .group:active .group-active\\:test {
+        display: none;
+      }
+    `);
+  });
+});
+
+test('the hocus variant is working', () => {
+  return generatePluginCss(['hocus']).then(css => {
+    expect(css).toMatchCss(`
+      .test {
+        display: none;
+      }
+      .hocus\\:test:hover, .hocus\\:test:focus {
+        display: none;
+      }
+    `);
+  });
+});
+
+test('the group-hocus variant is working', () => {
+  return generatePluginCss(['group-hocus']).then(css => {
+    expect(css).toMatchCss(`
+      .test {
+        display: none;
+      }
+      .group:hover .group-hocus\\:test, .group:focus .group-hocus\\:test {
         display: none;
       }
     `);

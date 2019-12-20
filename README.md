@@ -17,7 +17,7 @@ npm install tailwindcss-interaction-variants
     },
   },
   variants: {
-    backgroundColor: ['hocus', 'group-hocus', 'group-focus', 'group-active'],
+    backgroundColor: ['group-focus', 'group-focus-within', 'group-active', 'hocus', 'group-hocus'],
   },
   plugins: [
     require('tailwindcss-interaction-variants')(),
@@ -32,19 +32,23 @@ The above configuration would generate the following CSS:
   background-color: black;
 }
 
+.group:focus .group-focus\:bg-black {
+  background-color: black;
+}
+
+.group:focus-within .group-focus-within\:bg-black {
+  background-color: black;
+}
+
+.group:active .group-active\:bg-black {
+  background-color: black;
+}
+
 .hocus\:bg-black:hover, .hocus\:bg-black:focus {
   background-color: black;
 }
 
 .group:hover .group-hocus\:bg-black, .group:focus .group-hocus\:bg-black {
-  background-color: black;
-}
-
-.group:focus .group-focus\:bg-black {
-  background-color: black;
-}
-
-.group:active .group-active\:bg-black {
   background-color: black;
 }
 ```
