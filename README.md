@@ -20,7 +20,7 @@ module.exports = {
     backgroundColor: ['group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus'],
   },
   plugins: [
-    require('tailwindcss-interaction-variants')(),
+    require('tailwindcss-interaction-variants'),
   ],
 };
 ```
