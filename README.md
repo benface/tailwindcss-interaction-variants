@@ -10,7 +10,7 @@ npm install tailwindcss-interaction-variants
 
 ```js
 // tailwind.config.js
-{
+module.exports = {
   theme: {
     backgroundColor: {
       'black': 'black',
@@ -22,7 +22,7 @@ npm install tailwindcss-interaction-variants
   plugins: [
     require('tailwindcss-interaction-variants')(),
   ],
-}
+};
 ```
 
 The above configuration would generate the following CSS:

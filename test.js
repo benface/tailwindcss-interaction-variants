@@ -14,7 +14,7 @@ const generatePluginCss = (variants = [], tailwindOptions = {}, css = null) => {
       },
       corePlugins: false,
       plugins: [
-        interactionVariantsPlugin(),
+        interactionVariantsPlugin,
         ({ addUtilities }) => {
           addUtilities(css ? css : {
             '.block': {
