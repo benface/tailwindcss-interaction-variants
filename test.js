@@ -48,6 +48,19 @@ test('the plugin doesn’t do anything if the variants aren’t used', () => {
   });
 });
 
+test('the checked variant is working', () => {
+  return generatePluginCss(['checked']).then(css => {
+    expect(css).toMatchCss(`
+      .block {
+        display: block;
+      }
+      .checked\\:block:checked {
+        display: block;
+      }
+    `);
+  });
+});
+
 test('the group-focus variant is working', () => {
   return generatePluginCss(['group-focus']).then(css => {
     expect(css).toMatchCss(`
@@ -88,9 +101,12 @@ test('the group-hocus variant is working', () => {
 });
 
 test('all the variants are working', () => {
-  return generatePluginCss(['group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus']).then(css => {
+  return generatePluginCss(['checked', 'group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus']).then(css => {
     expect(css).toMatchCss(`
       .block {
+        display: block;
+      }
+      .checked\\:block:checked {
         display: block;
       }
       .group:focus .group-focus\\:block {
@@ -119,9 +135,12 @@ test('all the variants are working', () => {
 });
 
 test('all variants can be chained with the responsive variant', () => {
-  return generatePluginCss(['group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'responsive']).then(css => {
+  return generatePluginCss(['checked', 'group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'responsive']).then(css => {
     expect(css).toMatchCss(`
       .block {
+        display: block;
+      }
+      .checked\\:block:checked {
         display: block;
       }
       .group:focus .group-focus\\:block {
@@ -147,6 +166,9 @@ test('all variants can be chained with the responsive variant', () => {
       }
       @media (min-width: 640px) {
         .sm\\:block {
+          display: block;
+        }
+        .sm\\:checked\\:block:checked {
           display: block;
         }
         .group:focus .sm\\:group-focus\\:block {
@@ -176,11 +198,17 @@ test('all variants can be chained with the responsive variant', () => {
 });
 
 test('the variants work well with Tailwind’s prefix option', () => {
-  return generatePluginCss(['group-focus', 'hocus', 'group-hocus'], {
+  return generatePluginCss(['hover', 'checked', 'group-focus', 'hocus', 'group-hocus'], {
     prefix: 'tw-',
   }).then(css => {
     expect(css).toMatchCss(`
       .tw-block {
+        display: block;
+      }
+      .hover\\:tw-block:hover {
+        display: block;
+      }
+      .checked\\:tw-block:checked {
         display: block;
       }
       .tw-group:focus .group-focus\\:tw-block {
@@ -197,13 +225,19 @@ test('the variants work well with Tailwind’s prefix option', () => {
 });
 
 test('the variants work on utilities that include pseudo-elements', () => {
-  return generatePluginCss(['group-focus', 'hocus', 'group-hocus'], {}, {
+  return generatePluginCss(['hover', 'checked', 'group-focus', 'hocus', 'group-hocus'], {}, {
     '.placeholder-gray-400::placeholder': {
       'color': '#cbd5e0',
     },
   }).then(css => {
     expect(css).toMatchCss(`
       .placeholder-gray-400::placeholder {
+        color: #cbd5e0;
+      }
+      .hover\\:placeholder-gray-400:hover::placeholder {
+        color: #cbd5e0;
+      }
+      .checked\\:placeholder-gray-400:checked::placeholder {
         color: #cbd5e0;
       }
       .group:focus .group-focus\\:placeholder-gray-400::placeholder {

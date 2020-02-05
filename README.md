@@ -17,7 +17,7 @@ module.exports = {
     },
   },
   variants: {
-    backgroundColor: ['group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus'],
+    backgroundColor: ['checked', 'group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus'],
   },
   plugins: [
     require('tailwindcss-interaction-variants'),
@@ -29,6 +29,10 @@ The above configuration would generate the following CSS:
 
 ```css
 .bg-black {
+  background-color: black;
+}
+
+.checked\:bg-black:checked {
   background-color: black;
 }
 

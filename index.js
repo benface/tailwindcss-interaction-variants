@@ -9,6 +9,19 @@ module.exports = plugin(function({ addVariant, config }) {
     return `${getPrefix(`.${className}`)}${className}`;
   };
 
+  const pseudoClassVariant = function(pseudoClass) {
+    return ({ modifySelectors, separator }) => {
+      return modifySelectors(({ selector }) => {
+        return selectorParser(selectors => {
+          selectors.walkClasses(classNode => {
+            classNode.value = `${pseudoClass}${separator}${classNode.value}`;
+            classNode.parent.insertAfter(classNode, selectorParser.pseudo({ value: `:${pseudoClass}` }));
+          });
+        }).processSync(selector);
+      });
+    };
+  };
+
   const groupPseudoClassVariant = function(pseudoClass) {
     return ({ modifySelectors, separator }) => {
       return modifySelectors(({ selector }) => {
@@ -22,6 +35,7 @@ module.exports = plugin(function({ addVariant, config }) {
     };
   };
 
+  addVariant('checked', pseudoClassVariant('checked'));
   addVariant('group-focus', groupPseudoClassVariant('focus'));
   addVariant('group-focus-within', groupPseudoClassVariant('focus-within'));
   addVariant('group-active', groupPseudoClassVariant('active'));
