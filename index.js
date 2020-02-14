@@ -2,7 +2,7 @@ const plugin = require('tailwindcss/plugin');
 const _ = require('lodash');
 const selectorParser = require('postcss-selector-parser');
 
-module.exports = plugin(function({ addVariant, config }) {
+module.exports = plugin(function({ addVariant, config, e, postcss }) {
   const prefixClass = function(className) {
     const prefix = config('prefix');
     const getPrefix = typeof prefix === 'function' ? prefix : () => prefix;
@@ -69,6 +69,24 @@ module.exports = plugin(function({ addVariant, config }) {
         });
         selectors.append(clonedSelectors);
       }).processSync(selector)
+    });
+  });
+
+  addVariant('can-hover', ({ container, separator }) => {
+    const atRule = postcss.atRule({ name: 'media', params: '(hover: hover)' });
+    atRule.append(container.nodes);
+    container.append(atRule);
+    atRule.walkRules(rule => {
+      rule.selector = `.${e(`can-hover${separator}`)}${rule.selector.slice(1)}`;
+    });
+  });
+
+  addVariant('no-hover', ({ container, separator }) => {
+    const atRule = postcss.atRule({ name: 'media', params: '(hover: none)' });
+    atRule.append(container.nodes);
+    container.append(atRule);
+    atRule.walkRules(rule => {
+      rule.selector = `.${e(`no-hover${separator}`)}${rule.selector.slice(1)}`;
     });
   });
 });
