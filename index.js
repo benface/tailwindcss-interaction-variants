@@ -3,6 +3,8 @@ const _ = require('lodash');
 const selectorParser = require('postcss-selector-parser');
 
 module.exports = plugin(function({ addVariant, config, e, postcss }) {
+  const importantSelector = typeof config('important') === 'string' ? config('important') : null;
+
   const prefixClass = function(className) {
     const prefix = config('prefix');
     const getPrefix = typeof prefix === 'function' ? prefix : () => prefix;
@@ -77,7 +79,7 @@ module.exports = plugin(function({ addVariant, config, e, postcss }) {
     atRule.append(container.nodes);
     container.append(atRule);
     atRule.walkRules(rule => {
-      rule.selector = `.${e(`can-hover${separator}`)}${rule.selector.slice(1)}`;
+      rule.selector = `${importantSelector ? importantSelector + ' ' : ''}.${e(`can-hover${separator}`)}${rule.selector.slice(1 + (importantSelector ? importantSelector.length + 1 : 0))}`;
     });
   });
 
@@ -86,7 +88,7 @@ module.exports = plugin(function({ addVariant, config, e, postcss }) {
     atRule.append(container.nodes);
     container.append(atRule);
     atRule.walkRules(rule => {
-      rule.selector = `.${e(`no-hover${separator}`)}${rule.selector.slice(1)}`;
+      rule.selector = `${importantSelector ? importantSelector + ' ' : ''}.${e(`no-hover${separator}`)}${rule.selector.slice(1 + (importantSelector ? importantSelector.length + 1 : 0))}`;
     });
   });
 });

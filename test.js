@@ -257,7 +257,7 @@ test('all variants can be chained with the responsive variant', () => {
   });
 });
 
-test('the variants work well with Tailwind’s prefix option', () => {
+test('the variants work with Tailwind’s prefix option', () => {
   return generatePluginCss(['hover', 'checked', 'group-focus', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {
     prefix: 'tw-',
   }).then(css => {
@@ -287,6 +287,80 @@ test('the variants work well with Tailwind’s prefix option', () => {
       }
       @media (hover: none) {
         .no-hover\\:tw-w-1\\/2 {
+          width: 50%;
+        }
+      }
+    `);
+  });
+});
+
+test('the variants work with Tailwind’s important option', () => {
+  return generatePluginCss(['hover', 'checked', 'group-focus', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {
+    important: true,
+  }).then(css => {
+    expect(css).toMatchCss(`
+      .w-1\\/2 {
+        width: 50% !important;
+      }
+      .hover\\:w-1\\/2:hover {
+        width: 50% !important;
+      }
+      .checked\\:w-1\\/2:checked {
+        width: 50% !important;
+      }
+      .group:focus .group-focus\\:w-1\\/2 {
+        width: 50% !important;
+      }
+      .hocus\\:w-1\\/2:hover, .hocus\\:w-1\\/2:focus {
+        width: 50% !important;
+      }
+      .group:hover .group-hocus\\:w-1\\/2, .group:focus .group-hocus\\:w-1\\/2 {
+        width: 50% !important;
+      }
+      @media (hover: hover) {
+        .can-hover\\:w-1\\/2 {
+          width: 50% !important;
+        }
+      }
+      @media (hover: none) {
+        .no-hover\\:w-1\\/2 {
+          width: 50% !important;
+        }
+      }
+    `);
+  });
+});
+
+test('the variants work with Tailwind’s important option set to a selector', () => {
+  return generatePluginCss(['hover', 'checked', 'group-focus', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {
+    important: '#app',
+  }).then(css => {
+    expect(css).toMatchCss(`
+      #app .w-1\\/2 {
+        width: 50%;
+      }
+      #app .hover\\:w-1\\/2:hover {
+        width: 50%;
+      }
+      #app .checked\\:w-1\\/2:checked {
+        width: 50%;
+      }
+      #app .group:focus .group-focus\\:w-1\\/2 {
+        width: 50%;
+      }
+      #app .hocus\\:w-1\\/2:hover, #app .hocus\\:w-1\\/2:focus {
+        width: 50%;
+      }
+      #app .group:hover .group-hocus\\:w-1\\/2, #app .group:focus .group-hocus\\:w-1\\/2 {
+        width: 50%;
+      }
+      @media (hover: hover) {
+        #app .can-hover\\:w-1\\/2 {
+          width: 50%;
+        }
+      }
+      @media (hover: none) {
+        #app .no-hover\\:w-1\\/2 {
           width: 50%;
         }
       }

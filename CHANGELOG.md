@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project mostly adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [3.1.1] - 2020-03-17
+
+### Fixed
+- Fixed the `can-hover` and `no-hover` variants with Tailwind’s `important` option set to a selector (e.g. `#app`)
+
 ## [3.1.0] - 2020-02-13
 
 ### Added
@@ -54,7 +59,8 @@ No change since 2.0.0-beta.1
 
 Initial release
 
-[Unreleased]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.1.0...HEAD
+[Unreleased]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.1.1...HEAD
+[3.1.1]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/benface/tailwindcss-interaction-variants/compare/v2.4.0...v3.0.0
 [2.4.0]: https://github.com/benface/tailwindcss-interaction-variants/compare/v2.3.0...v2.4.0
