@@ -61,19 +61,6 @@ test('the checked variant is working', () => {
   });
 });
 
-test('the group-focus variant is working', () => {
-  return generatePluginCss(['group-focus']).then(css => {
-    expect(css).toMatchCss(`
-      .w-1\\/2 {
-        width: 50%;
-      }
-      .group:focus .group-focus\\:w-1\\/2 {
-        width: 50%;
-      }
-    `);
-  });
-});
-
 test('the hocus variant is working', () => {
   return generatePluginCss(['hocus']).then(css => {
     expect(css).toMatchCss(`
@@ -131,15 +118,12 @@ test('the no-hover variant is working', () => {
 });
 
 test('all the variants are working', () => {
-  return generatePluginCss(['checked', 'group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover']).then(css => {
+  return generatePluginCss(['checked', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover']).then(css => {
     expect(css).toMatchCss(`
       .w-1\\/2 {
         width: 50%;
       }
       .checked\\:w-1\\/2:checked {
-        width: 50%;
-      }
-      .group:focus .group-focus\\:w-1\\/2 {
         width: 50%;
       }
       .group:focus-within .group-focus-within\\:w-1\\/2 {
@@ -175,15 +159,12 @@ test('all the variants are working', () => {
 });
 
 test('all variants can be chained with the responsive variant', () => {
-  return generatePluginCss(['checked', 'group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover', 'responsive']).then(css => {
+  return generatePluginCss(['checked', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover', 'responsive']).then(css => {
     expect(css).toMatchCss(`
       .w-1\\/2 {
         width: 50%;
       }
       .checked\\:w-1\\/2:checked {
-        width: 50%;
-      }
-      .group:focus .group-focus\\:w-1\\/2 {
         width: 50%;
       }
       .group:focus-within .group-focus-within\\:w-1\\/2 {
@@ -221,9 +202,6 @@ test('all variants can be chained with the responsive variant', () => {
         .sm\\:checked\\:w-1\\/2:checked {
           width: 50%;
         }
-        .group:focus .sm\\:group-focus\\:w-1\\/2 {
-          width: 50%;
-        }
         .group:focus-within .sm\\:group-focus-within\\:w-1\\/2 {
           width: 50%;
         }
@@ -258,7 +236,7 @@ test('all variants can be chained with the responsive variant', () => {
 });
 
 test('the variants work with Tailwind’s prefix option', () => {
-  return generatePluginCss(['hover', 'checked', 'group-focus', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {
+  return generatePluginCss(['hover', 'checked', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {
     prefix: 'tw-',
   }).then(css => {
     expect(css).toMatchCss(`
@@ -269,9 +247,6 @@ test('the variants work with Tailwind’s prefix option', () => {
         width: 50%;
       }
       .checked\\:tw-w-1\\/2:checked {
-        width: 50%;
-      }
-      .tw-group:focus .group-focus\\:tw-w-1\\/2 {
         width: 50%;
       }
       .hocus\\:tw-w-1\\/2:hover, .hocus\\:tw-w-1\\/2:focus {
@@ -295,7 +270,7 @@ test('the variants work with Tailwind’s prefix option', () => {
 });
 
 test('the variants work with Tailwind’s important option', () => {
-  return generatePluginCss(['hover', 'checked', 'group-focus', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {
+  return generatePluginCss(['hover', 'checked', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {
     important: true,
   }).then(css => {
     expect(css).toMatchCss(`
@@ -306,9 +281,6 @@ test('the variants work with Tailwind’s important option', () => {
         width: 50% !important;
       }
       .checked\\:w-1\\/2:checked {
-        width: 50% !important;
-      }
-      .group:focus .group-focus\\:w-1\\/2 {
         width: 50% !important;
       }
       .hocus\\:w-1\\/2:hover, .hocus\\:w-1\\/2:focus {
@@ -332,7 +304,7 @@ test('the variants work with Tailwind’s important option', () => {
 });
 
 test('the variants work with Tailwind’s important option set to a selector', () => {
-  return generatePluginCss(['hover', 'checked', 'group-focus', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {
+  return generatePluginCss(['hover', 'checked', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {
     important: '#app',
   }).then(css => {
     expect(css).toMatchCss(`
@@ -343,9 +315,6 @@ test('the variants work with Tailwind’s important option set to a selector', (
         width: 50%;
       }
       #app .checked\\:w-1\\/2:checked {
-        width: 50%;
-      }
-      #app .group:focus .group-focus\\:w-1\\/2 {
         width: 50%;
       }
       #app .hocus\\:w-1\\/2:hover, #app .hocus\\:w-1\\/2:focus {
@@ -369,7 +338,7 @@ test('the variants work with Tailwind’s important option set to a selector', (
 });
 
 test('the variants work on utilities that include pseudo-elements', () => {
-  return generatePluginCss(['hover', 'checked', 'group-focus', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {}, {
+  return generatePluginCss(['hover', 'checked', 'hocus', 'group-hocus', 'can-hover', 'no-hover'], {}, {
     '.placeholder-gray-400::placeholder': {
       'color': '#cbd5e0',
     },
@@ -382,9 +351,6 @@ test('the variants work on utilities that include pseudo-elements', () => {
         color: #cbd5e0;
       }
       .checked\\:placeholder-gray-400:checked::placeholder {
-        color: #cbd5e0;
-      }
-      .group:focus .group-focus\\:placeholder-gray-400::placeholder {
         color: #cbd5e0;
       }
       .hocus\\:placeholder-gray-400:hover::placeholder, .hocus\\:placeholder-gray-400:focus::placeholder {

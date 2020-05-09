@@ -21,7 +21,7 @@ module.exports = {
     },
   },
   variants: {
-    backgroundColor: ['checked', 'group-focus', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover'],
+    backgroundColor: ['checked', 'group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover'],
   },
   plugins: [
     require('tailwindcss-interaction-variants'),
@@ -37,10 +37,6 @@ The above configuration would generate the following CSS:
 }
 
 .checked\:bg-black:checked {
-  background-color: black;
-}
-
-.group:focus .group-focus\:bg-black {
   background-color: black;
 }
 

@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project mostly adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [4.0.0] - 2020-05-09
+
+### Removed
+- Removed the `group-focus` variant since it is now built into Tailwind
+
 ## [3.1.1] - 2020-03-17
 
 ### Fixed
@@ -59,7 +64,8 @@ No change since 2.0.0-beta.1
 
 Initial release
 
-[Unreleased]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.1.1...HEAD
+[Unreleased]: https://github.com/benface/tailwindcss-interaction-variants/compare/v4.0.0...HEAD
+[4.0.0]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.1.1...v4.0.0
 [3.1.1]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.0.0...v3.1.0
 [3.0.0]: https://github.com/benface/tailwindcss-interaction-variants/compare/v2.4.0...v3.0.0
