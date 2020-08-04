@@ -38,6 +38,7 @@ module.exports = plugin(function({ addVariant, config, e, postcss }) {
   };
 
   addVariant('group-focus-within', groupPseudoClassVariant('focus-within'));
+  addVariant('group-focus-visible', groupPseudoClassVariant('focus-visible'));
   addVariant('group-active', groupPseudoClassVariant('active'));
   addVariant('group-visited', groupPseudoClassVariant('visited'));
   addVariant('group-disabled', groupPseudoClassVariant('disabled'));

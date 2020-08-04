@@ -7,6 +7,9 @@ and this project mostly adheres to [Semantic Versioning](https://semver.org/spec
 
 ## [5.0.0] - 2020-08-04
 
+### Added
+- Added a `group-focus-visible` variant
+
 ### Removed
 - Removed the `checked` variant since it is built into Tailwind as of v1.5
 
@@ -69,7 +72,8 @@ No change since 2.0.0-beta.1
 
 Initial release
 
-[Unreleased]: https://github.com/benface/tailwindcss-interaction-variants/compare/v4.0.0...HEAD
+[Unreleased]: https://github.com/benface/tailwindcss-interaction-variants/compare/v5.0.0...HEAD
+[5.0.0]: https://github.com/benface/tailwindcss-interaction-variants/compare/v4.0.0...v5.0.0
 [4.0.0]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.1.1...v4.0.0
 [3.1.1]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.1.0...v3.1.1
 [3.1.0]: https://github.com/benface/tailwindcss-interaction-variants/compare/v3.0.0...v3.1.0

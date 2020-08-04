@@ -105,12 +105,15 @@ test('the no-hover variant is working', () => {
 });
 
 test('all the variants are working', () => {
-  return generatePluginCss(['group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover']).then(css => {
+  return generatePluginCss(['group-focus-within', 'group-focus-visible', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover']).then(css => {
     expect(css).toMatchCss(`
       .w-1\\/2 {
         width: 50%;
       }
       .group:focus-within .group-focus-within\\:w-1\\/2 {
+        width: 50%;
+      }
+      .group:focus-visible .group-focus-visible\\:w-1\\/2 {
         width: 50%;
       }
       .group:active .group-active\\:w-1\\/2 {
@@ -143,12 +146,15 @@ test('all the variants are working', () => {
 });
 
 test('all variants can be chained with the responsive variant', () => {
-  return generatePluginCss(['group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover', 'responsive']).then(css => {
+  return generatePluginCss(['group-focus-within', 'group-focus-visible', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover', 'responsive']).then(css => {
     expect(css).toMatchCss(`
       .w-1\\/2 {
         width: 50%;
       }
       .group:focus-within .group-focus-within\\:w-1\\/2 {
+        width: 50%;
+      }
+      .group:focus-visible .group-focus-visible\\:w-1\\/2 {
         width: 50%;
       }
       .group:active .group-active\\:w-1\\/2 {
@@ -181,6 +187,9 @@ test('all variants can be chained with the responsive variant', () => {
           width: 50%;
         }
         .group:focus-within .sm\\:group-focus-within\\:w-1\\/2 {
+          width: 50%;
+        }
+        .group:focus-visible .sm\\:group-focus-visible\\:w-1\\/2 {
           width: 50%;
         }
         .group:active .sm\\:group-active\\:w-1\\/2 {

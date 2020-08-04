@@ -25,7 +25,7 @@ module.exports = {
     },
   },
   variants: {
-    backgroundColor: ['group-focus-within', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover'],
+    backgroundColor: ['group-focus-within', 'group-focus-visible', 'group-active', 'group-visited', 'group-disabled', 'hocus', 'group-hocus', 'can-hover', 'no-hover'],
   },
   plugins: [
     require('tailwindcss-interaction-variants'),
@@ -41,6 +41,10 @@ The above configuration would generate the following CSS:
 }
 
 .group:focus-within .group-focus-within\:bg-black {
+  background-color: black;
+}
+
+.group:focus-visible .group-focus-visible\:bg-black {
   background-color: black;
 }
 
