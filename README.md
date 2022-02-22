@@ -1,6 +1,6 @@
-# [BLACK LIVES MATTER](https://blacklivesmatters.carrd.co)
+# ⛔️ DEPRECATED
 
-### Be aware. Be angry. Do better. Demand change. Show your support any way you can. Click on the link above to find protests, petitions, and other ways to help. DO NOT LET IT GO SILENT.
+Tailwind CSS’s [JIT engine](https://tailwindcss.com/docs/upgrade-guide#migrating-to-the-jit-engine), which completely replaced the classic engine in Tailwind 3.0, supports _all_ possible variants, current and future, rendering this plugin useless. So please use it instead. Thank you!
 
 # Interaction Variants Plugin for Tailwind CSS
 
